@@ -855,8 +855,25 @@
 </footer>
 
 <script>
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
+    const form = e.target;
+
+    const data = {
+      name: form.querySelector('input[type="text"]').value,
+      contact: form.querySelectorAll('input')[1].value,
+      service: form.querySelector('select').value,
+      message: form.querySelector('textarea').value
+    };
+
+    try {
+      await fetch('https://ТВОЙ_RAILWAY_URL/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+    } catch(e) {}
+
     document.getElementById('contactForm').style.display = 'none';
     document.getElementById('successMsg').style.display = 'block';
   }
